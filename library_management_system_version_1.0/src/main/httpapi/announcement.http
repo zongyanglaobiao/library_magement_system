@@ -1,0 +1,6 @@
+### 查询公告
+GET http://localhost:8080/library_management_system/announcement/getAnnouncement
+Accept: application/json
+### 修改公告(需要权限)
+GET  http://localhost:8080/library_management_system/announcement/permissions/modifyAnnouncement?content=管理员修改公告
+Accept: application/json

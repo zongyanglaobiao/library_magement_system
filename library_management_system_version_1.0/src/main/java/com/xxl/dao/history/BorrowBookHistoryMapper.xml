@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.dao.history.BorrowBookHistoryMapper">
+<!--  映射结果集  -->
+    <resultMap id="BorrowBookHistoryMap" type="borrowBookHistory">
+        <result property="borrowId" column="borrow_id"/>
+        <result property="borrowTime" column="borrow_time"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="bookId" column="book_id"/>
+        <association property="book" column="book_id" javaType="book" select="com.xxl.dao.book.BookMapper.queryAllBooks"/>
+    </resultMap>
+<!--   添加记录时间 -->
+    <insert id="addBorrowHistory" parameterType="borrowBookHistory">
+        insert into borrow_book_history_t(borrow_time,user_phone,book_id)
+        value(#{borrowTime},#{userPhone},#{bookId})
+    </insert>
+<!--  删除,自动删除当前时间的前十五天就删除  -->
+    <delete id="deleteHistory" parameterType="string">
+        delete from borrow_book_history_t where borrow_time
+        &lt; #{time};
+    </delete>
+<!--
+查询(最难的一部分)
+假如15156246017这个用户查看历史记录
+看了那些书以及时间记录以及书的详细信息
+-->
+<select id="queryHistory" parameterType="string" resultMap="BorrowBookHistoryMap">
+select  * from borrow_book_history_t where user_phone = #{userPhone}
+</select>
+
+</mapper>

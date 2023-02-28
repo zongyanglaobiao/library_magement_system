@@ -1,0 +1,25 @@
+###登录
+GET http://localhost:8080/library_management_system/user/login?phoneNumber=13365752819&password=123
+Accept: application/json
+###用户注册
+GET http://localhost:8080/library_management_system/user/register?phoneNumber=22222222222&userPassword=123&userEmail=3578144921@qq.com
+Accept: application/json
+### 获取用户信息
+GET http://localhost:8080/library_management_system/user/info
+Accept: application/json
+### 修改用户信息
+POST  http://localhost:8080/library_management_system/user/modify
+Content-Type: application/json
+
+{
+"userPassword": "admin123"
+}
+### 删除用户(需要权限)
+GET http://localhost:8080/library_management_system/user/userPhone
+Accept: application/json
+### 注销用户
+GET http://localhost:8080/library_management_system/user/clear
+Accept: application/json
+### 得到所有用户(需要权限)
+GET  http://localhost:8080/library_management_system/user/permissions/getAllUser
+Accept: application/json

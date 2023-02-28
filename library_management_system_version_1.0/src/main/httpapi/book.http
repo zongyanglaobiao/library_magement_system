@@ -1,0 +1,18 @@
+### 查询所有书籍
+GET http://localhost:8080/library_management_system/book/queryAllBook
+Accept: application/json
+### 添加书本(需要权限)
+GET http://localhost:8080/library_management_system/book/permissions/addBook?bookName=java并发编程实战&bookAuthor=Brain Goelz&bookPrice=34
+Accept: application/json
+### 修改图书(需要权限)
+POST http://localhost:8080/library_management_system/book/permissions/modifyBook
+Content-Type: application/json
+
+{
+"isBorrowing":0,
+"bookId": "e18a0adc-31a4-46a7-b0d5-4069c8b03cdf"
+}
+### 删除书本(需要权限)
+GET http://localhost:8080/library_management_system/book/permissions/deleteBook?bookId=e18a0adc-31a4-46a7-b0d5-4069c8b03cdf
+### 借书/还书
+GET http://localhost:8080/library_management_system/book/borrow?bookId=c8bd2aad-48f3-42b6-8c49-b82861c6cd6f&userPhone=15156246017&isBorrowing=1

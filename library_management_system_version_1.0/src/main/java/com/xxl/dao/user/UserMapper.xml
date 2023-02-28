@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.dao.user.UserMapper">
+<!--  结果集映射  -->
+    <resultMap id="UserMap" type="user">
+        <result property="userPhone" column="user_phone"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userGender" column="user_gender"/>
+        <result property="userBirthday" column="user_birthday"/>
+        <result property="roleId" column="role_id"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="role_name" column="role_name"/>
+    </resultMap>
+<!--  sql片段  -->
+    <sql id="UserSql" >
+        <where>
+            <if test="userPhone != null"> or user_phone like "%"#{userPhone}"%"</if>
+            <if test="userName != null">or user_name like "%"#{userName}"%"</if>
+            <if test="roleId != 0"> or role_id = #{roleId}</if>
+            <if test="roleName != null"> or role_t.role_name like "%"#{roleName}"%"</if>
+        </where>
+    </sql>
+<!-- 查询所有用户或者查询某一个用户   -->
+    <select id="queryUser" resultMap="UserMap">
+        select * from user_info_t   join role_t on user_info_t.role_id = role_t.role_id
+        <include refid="UserSql"/>
+    </select>
+<!--   删除用户  -->
+    <delete id="deleteUser">
+        delete  from   user_info_t where user_phone = #{userPhone}
+    </delete>
+<!--  修改一个用户  -->
+    <update id="updateUserByUserPhone"  parameterType="map">
+        update user_info_t
+        <set>
+            <if test="userPhone != null">,user_phone = #{userPhone}</if>
+            <if test="userName != null">, user_name = #{userName}</if>
+            <if test="userPassword != null">, user_password = #{userPassword}</if>
+            <if test="userGender != null">, user_gender = #{userGender}</if>
+            <if test="userBirthday != null">, user_birthday = #{userBirthday}</if>
+            <if test="roleId != 0">, role_id = #{roleId}</if>
+            <if test="userEmail != null">, user_email = #{userEmail}</if>
+        </set>
+        where user_phone = #{phone}
+    </update>
+<!--  添加一个用户  -->
+    <insert id="addUser" parameterType="map">
+        insert into user_info_t
+        <foreach collection="map.keySet()" item="key"  separator="," open="(" close=")">
+            ${key}
+        </foreach>
+        value
+        <foreach collection="map.values()" item="value" index="key" separator="," open="(" close=")">
+            #{value}
+        </foreach>
+    </insert>
+<!--  登录专用  -->
+    <select id="userLogin" resultMap="UserMap">
+        select  * from user_info_t u join role_t r on u.role_id = r.role_id
+        where  u.user_phone = #{userPhone} and u.user_password =  #{password}
+    </select>
+</mapper>

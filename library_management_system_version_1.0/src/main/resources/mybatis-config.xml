@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD configuration 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--  设置日志  -->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+<!--  设置别名  -->
+    <typeAliases>
+        <package name="com.xxl.pojo"/>
+    </typeAliases>
+<!-- 注册mapper   -->
+    <mappers>
+        <mapper resource="com/xxl/dao/user/UserMapper.xml"/>
+        <mapper resource="com/xxl/dao/announcement/CustomAnnouncement.xml"/>
+        <mapper resource="com/xxl/dao/book/BookMapper.xml"/>
+        <mapper resource="com/xxl/dao/history/BorrowBookHistoryMapper.xml"/>
+    </mappers>
+</configuration>

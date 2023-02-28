@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.dao.book.BookMapper">
+<!--结果映射集-->
+    <resultMap id="BookMap" type="book">
+        <result property="bookName" column="book_name"/>
+        <result property="bookId" column="book_id"/>
+        <result property="bookAuthor" column="book_author"/>
+        <result property="bookPrice" column="book_price"/>
+        <result property="bookImgUrl" column="book_img_url"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="isBorrowing" column="isBorrowing"/>
+    </resultMap>
+<!-- 查询所有书和个别书   -->
+    <select id="queryAllBooks" resultMap="BookMap">
+        SELECT * FROM book_t
+         <where>
+            <if test="bookName != null"> book_name LIKE "%"#{bookName}"%"</if>
+            <if test="bookNo != null">OR book_id = #{bookNo}</if>
+         </where>
+    </select>
+<!--  添加图书  -->
+    <insert id="addBookByName" parameterType="book">
+        insert into  book_t(book_name,book_id,book_author,isBorrowing,book_price)
+        value(#{bookName},#{bookId},#{bookAuthor},#{isBorrowing},#{bookPrice})
+    </insert>
+<!--   修改图书 -->
+    <update id="modifyBook" parameterType="book">
+        update book_t 
+        <set>
+            <if test="bookAuthor != null">,book_author = #{bookAuthor}</if>
+            <if test="bookPrice != null">,book_price = #{bookPrice}</if>
+            <if test="bookImgUrl != null">,book_img_url = #{bookImgUrl}</if>
+            <if test="userPhone != null">,user_phone = #{userPhone}</if>
+            <if test="isBorrowing != null">,isBorrowing = #{isBorrowing}</if>
+            <if test="bookName != null">,book_name  = #{bookName}</if>
+        </set>
+        <where>
+            <if test="bookId != null"> and  book_id = #{bookId}</if>
+        </where>
+    </update>
+    <!--删除图书-->
+    <delete id="deleteById" parameterType="String">
+        delete from book_t where book_id = #{bookId}
+    </delete>
+</mapper>
